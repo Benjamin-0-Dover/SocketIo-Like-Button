@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Test</title>
+      <meta charset="utf-8">
+		<link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+		 <p id="likes">Likes: </p>
+		 <input type="checkbox" id="like"></input>
+		 <script src="/socket.io/socket.io.js"></script>
+		 <script>
+			 var socket = io.connect();
+			 
+      var checkbox = document.querySelector("input[id=like]");
+
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          socket.emit('liked');
+        } else {
+          socket.emit('un_liked');
+        }
+      });
+
+			 function like(){
+			   socket.emit('liked');
+			 }
+
+       function un_like(){
+			   socket.emit('un_liked');
+			 }
+			 
+			 socket.on('buttonUpdate', function(data){
+				 document.getElementById("likes").innerHTML = 'Likes:  ' + data;
+			 });
+		</script>
+   </body>
+</html>
